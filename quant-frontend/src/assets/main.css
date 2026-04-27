@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-deep: #0A0E1A;
+  --color-bg-card: #131929;
+  --color-bg-card-hover: #1a2438;
+  --color-border: #1E2D45;
+  --color-border-light: #253550;
+  --color-text-primary: #E2E8F0;
+  --color-text-secondary: #8899AA;
+  --color-text-muted: #4A5568;
+  --color-green: #00D4AA;
+  --color-green-dim: rgba(0, 212, 170, 0.15);
+  --color-red: #FF4D4D;
+  --color-red-dim: rgba(255, 77, 77, 0.15);
+  --color-blue: #3B82F6;
+  --color-blue-dim: rgba(59, 130, 246, 0.15);
+  --color-orange: #F59E0B;
+  --color-orange-dim: rgba(245, 158, 11, 0.15);
+  --color-yellow: #FCD34D;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  --font-sans: 'DM Sans', 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+/* ============================================
+   Runtime theme variables (支持黑夜/白天切换)
+   ============================================ */
+:root {
+  /* 黑夜模式（默认） */
+  --t-bg-deep:       #0A0E1A;
+  --t-bg-sidebar:    #0D1120;
+  --t-bg-card:       #131929;
+  --t-bg-card-hover: #1a2438;
+  --t-border:        #1E2D45;
+  --t-border-light:  #253550;
+  --t-text-primary:  #E2E8F0;
+  --t-text-secondary:#8899AA;
+  --t-text-muted:    #4A5568;
+  --t-skeleton:      #1E2D45;
+  --t-scrollbar-track: #0A0E1A;
+  --t-scrollbar-thumb: #1E2D45;
+  --t-scrollbar-hover: #253550;
+  --t-scan-line: rgba(0, 212, 170, 0.01);
+}
+
+[data-theme="light"] {
+  /* 白天模式 */
+  --t-bg-deep:       #F0F4F8;
+  --t-bg-sidebar:    #FFFFFF;
+  --t-bg-card:       #FFFFFF;
+  --t-bg-card-hover: #F7FAFC;
+  --t-border:        #E2E8F0;
+  --t-border-light:  #CBD5E0;
+  --t-text-primary:  #1A202C;
+  --t-text-secondary:#4A5568;
+  --t-text-muted:    #A0AEC0;
+  --t-skeleton:      #E2E8F0;
+  --t-scrollbar-track: #F0F4F8;
+  --t-scrollbar-thumb: #CBD5E0;
+  --t-scrollbar-hover: #A0AEC0;
+  --t-scan-line: transparent;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  min-width: 1280px;
+  background-color: var(--t-bg-deep);
+  color: var(--t-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--t-scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--t-scrollbar-thumb);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--t-scrollbar-hover);
+}
+
+/* Skeleton animation */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+.skeleton {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  background: var(--t-skeleton);
+  border-radius: 4px;
+}
+
+/* Number formatting */
+.num-positive { color: #00D4AA; }
+.num-negative { color: #FF4D4D; }
+.num-neutral  { color: #3B82F6; }
+
+/* Glow effects */
+.glow-green { box-shadow: 0 0 12px rgba(0, 212, 170, 0.3); }
+.glow-red   { box-shadow: 0 0 12px rgba(255, 77, 77, 0.3); }
+.glow-blue  { box-shadow: 0 0 12px rgba(59, 130, 246, 0.3); }
+
+/* Scan line overlay */
+.terminal-bg::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    var(--t-scan-line) 2px,
+    var(--t-scan-line) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Badge styles */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.badge-buy    { background: rgba(0, 212, 170, 0.15); color: #00D4AA; border: 1px solid rgba(0, 212, 170, 0.3); }
+.badge-sell   { background: rgba(255, 77, 77, 0.15);  color: #FF4D4D; border: 1px solid rgba(255, 77, 77, 0.3); }
+.badge-oversold   { background: rgba(245, 158, 11, 0.15); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.3); }
+.badge-overbought { background: rgba(252, 211, 77, 0.15);  color: #FCD34D; border: 1px solid rgba(252, 211, 77, 0.3); }
+
+/* Transition */
+.fade-enter-active, .fade-leave-active { transition: opacity 0.2s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }

@@ -1,0 +1,10 @@
+# Python 3.12+ required (pandas-ta >=0.4.67b0 requires Python >=3.12)
+fastapi==0.115.0
+uvicorn[standard]==0.30.0
+httpx==0.27.0
+pandas>=2.2.0            # pandas-ta will pull in compatible version
+pandas-ta>=0.4.67b0      # PyPI name; 0.3.14b is not on PyPI — use 0.4.x
+akshare>=1.12.0          # 1.14.0 not on PyPI; latest compatible is used
+aiosqlite==0.20.0
+python-dotenv==1.0.0
+apscheduler==3.10.4
