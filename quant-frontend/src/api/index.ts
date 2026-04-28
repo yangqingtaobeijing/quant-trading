@@ -76,7 +76,16 @@ export const portfolioApi = {
 
   /** POST /api/portfolio */
   addPosition: (position: CreatePositionDto): Promise<Position> =>
-    api.post('/portfolio', position),
+    api.post('/portfolio', {
+      symbol: position.symbol,
+      market: position.market.toLowerCase(),
+      buy_price: position.buyPrice,
+      quantity: position.quantity,
+      buy_date: position.buyDate,
+      stop_loss: position.stopLoss,
+      take_profit: position.takeProfit,
+      note: position.notes,
+    }),
 
   /** PUT /api/portfolio/:id */
   updatePosition: (id: string, data: Partial<Position>): Promise<Position> =>
