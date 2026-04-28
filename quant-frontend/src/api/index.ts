@@ -72,7 +72,21 @@ export const signalApi = {
 export const portfolioApi = {
   /** GET /api/portfolio */
   getPortfolio: (): Promise<Position[]> =>
-    api.get('/portfolio'),
+    (api.get('/portfolio') as unknown as Promise<any[]>).then((rows: any[]) =>
+      rows.map(r => ({
+        id: r.id,
+        symbol: r.symbol,
+        name: r.symbol,
+        market: (r.market || 'us').toUpperCase() as 'US' | 'CN',
+        buyPrice: r.buy_price,
+        currentPrice: r.current_price ?? r.buy_price,
+        quantity: r.quantity,
+        stopLoss: r.stop_loss,
+        takeProfit: r.take_profit,
+        buyDate: r.buy_date,
+        notes: r.note,
+      }))
+    ),
 
   /** POST /api/portfolio */
   addPosition: (position: CreatePositionDto): Promise<Position> =>
